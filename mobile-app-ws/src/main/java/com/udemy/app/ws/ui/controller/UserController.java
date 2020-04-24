@@ -1,7 +1,5 @@
 package com.udemy.app.ws.ui.controller;
 
-import com.udemy.app.ws.exceptions.AddressServiceException;
-import com.udemy.app.ws.exceptions.AppExceptionsHandler;
 import com.udemy.app.ws.exceptions.UserServiceException;
 import com.udemy.app.ws.service.AddressService;
 import com.udemy.app.ws.service.UserService;
@@ -128,6 +126,7 @@ public class UserController {
      * @param userDetails - {@link UserDetailsRequestModel}
      * @return {@link UserRest} object
      */
+    @PostAuthorize("hasRole('ROLE_ADMIN') or returnObject.userId == principal.userId")
     @PutMapping(path = "/{id}",
             consumes = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE},
             produces = {MediaType.APPLICATION_XML_VALUE, MediaType.APPLICATION_JSON_VALUE}
@@ -169,6 +168,7 @@ public class UserController {
      * @param id - public userID
      * @return {@link CollectionModel<AddressRest>} for representation in HAL format
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #id == principal.userId")
     @GetMapping(path = "/{id}/addresses",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/hal+json"}
     )
@@ -204,6 +204,7 @@ public class UserController {
      * @param addressId - public addressID
      * @return {@link EntityModel<AddressRest>} for representation in HAL format
      */
+    @PreAuthorize("hasRole('ROLE_ADMIN') or #userId == principal.userId")
     @GetMapping(path = "/{userId}/addresses/{addressId}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE, "application/hal+json"}
     )
@@ -226,7 +227,7 @@ public class UserController {
         return new EntityModel<>(addressRestModel);
     }
 
-    // http://localhost:8080/mobila-app-ws/users/email-verification?token=sdfsfs
+    // http://localhost:8080/mobile-app-ws/users/email-verification?token=sdfsfs
 
     /**
      * Handle GET request from Email Verification Service to verify token
@@ -253,7 +254,7 @@ public class UserController {
     }
 
 
-    // http://localhost:8080/mobila-app-ws/users/password-reset-request
+    // http://localhost:8080/mobile-app-ws/users/password-reset-request
 
     @PostMapping(path = "/password-reset-request",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE},
@@ -273,7 +274,7 @@ public class UserController {
         return returnValue;
     }
 
-    // http://localhost:8080/mobila-app-ws/users/password-reset-request
+    // http://localhost:8080/mobile-app-ws/users/password-reset
 
     @PostMapping(path = "/password-reset",
             consumes = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE}

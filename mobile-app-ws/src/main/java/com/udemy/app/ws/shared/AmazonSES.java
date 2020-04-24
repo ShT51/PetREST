@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class AmazonSES {
 
     // Emails will be send from this address
-    final String FROM = "mail@mail.com";
+    final String FROM = "email@email.com";
 
     final String SUBJECT = "One last step to complete your registration with PetREST ";
 

@@ -1,0 +1,92 @@
+- Create User (POST) http://localhost:8080/mobile-app-ws/users
+	Request body: 
+	{
+	"firstName":"First Name",
+	"lastName":"Last Name",
+	"email":"email@email.com",
+	"password":"test",
+	"addresses":[
+		{
+			"city":"City",
+			"country":"Country",
+			"streetName":"Street Name",
+			"postalCode":"111222",
+			"type":"billing"
+		},
+		{
+			"city":"City",
+			"country":"Country",
+			"streetName":"Street Name",
+			"postalCode":"111222",
+			"type":"shipping"	
+		}
+		]
+	}
+
+- Login (POST) http://localhost:8080/mobile-app-ws/users/login
+	Request body:
+	{
+	"email":"email@email.com",
+	"password":"test"
+	}
+	
+	Response headers:
+	Authorization : Bearer {JWT Token here}
+	UserId : {id}
+	
+- Get all Users (POST) http://localhost:8080/mobile-app-ws/users
+	Request headers:
+	Authorization : Bearer {JWT Token here}
+	
+- Get User (POST) http://localhost:8080/mobile-app-ws/users/{id}
+	Request headers:
+	Authorization : Bearer {JWT Token here}
+
+- UPDATE User (PUT) http://localhost:8080/mobile-app-ws/users/{id}
+	Request headers:
+	Authorization : Bearer {JWT Token here}
+	
+	Request body: 
+	{
+	"firstName":"First Name",
+	"lastName":"Last Name",
+	"email":"email@email.com",
+	"password":"test",
+	"addresses":[
+		{
+			"city":"City",
+			"country":"Country",
+			"streetName":"Street Name",
+			"postalCode":"111222",
+			"type":"billing"
+		},
+		{
+			"city":"City",
+			"country":"Country",
+			"streetName":"Street Name",
+			"postalCode":"111222",
+			"type":"shipping"	
+		}
+		]
+	}
+	
+- DELETE User (DELETE) http://localhost:8080/mobile-app-ws/users/{id}
+	Request headers:
+	Authorization : Bearer {JWT Token here}
+
+
+- Get list of User Addresses (POST) http://localhost:8080/mobile-app-ws/users/{id}/addresses
+	Request headers:
+	Authorization : Bearer {JWT Token here}
+	
+	In a response body will be {address Id}
+
+- Get User Address (POST) http://localhost:8080/mobile-app-ws/users/{id}/addresses/{address id}
+	Request headers:
+	Authorization : Bearer {JWT Token here}
+
+- Password Reset (POST) http://localhost:8080/mobile-app-ws/users/password-reset-request
+	Request body:
+	{
+	"email":"email@email.com",
+	}
