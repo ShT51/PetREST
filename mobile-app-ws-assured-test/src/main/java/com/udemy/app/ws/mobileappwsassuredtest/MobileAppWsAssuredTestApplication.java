@@ -1,0 +1,13 @@
+package com.udemy.app.ws.mobileappwsassuredtest;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class MobileAppWsAssuredTestApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(MobileAppWsAssuredTestApplication.class, args);
+    }
+
+}

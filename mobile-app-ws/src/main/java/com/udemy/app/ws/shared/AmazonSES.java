@@ -54,8 +54,8 @@ public class AmazonSES {
     public void verifyEmail(UserDto userDto) {
 
         // Harcoded ID and Password from Amazon SES
-        //System.setProperty("aws.accessKeyId", "XXXXXXXXX");
-        //System.setProperty("aws.secretKey", "YYYYYYYYYYY");
+        //System.setProperty("aws.accessKeyId", "XXXXXXXXXXX");
+        //System.setProperty("aws.secretKey", "YYYYYYYYYYYYYY");
 
         AmazonSimpleEmailService client =
                 AmazonSimpleEmailServiceClientBuilder.standard()
@@ -82,8 +82,8 @@ public class AmazonSES {
         boolean returnValue = false;
 
         // Harcoded ID and Password from Amazon SES
-        //System.setProperty("aws.accessKeyId", "XXXXXXXXX");
-        //System.setProperty("aws.secretKey", "YYYYYYYYYYY");
+        //System.setProperty("aws.accessKeyId", "XXXXXXXXXXX");
+        //System.setProperty("aws.secretKey", "YYYYYYYYYYYYYY");
 
         AmazonSimpleEmailService client =
                 AmazonSimpleEmailServiceClientBuilder.standard()
