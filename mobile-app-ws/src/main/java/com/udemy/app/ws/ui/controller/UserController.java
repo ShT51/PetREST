@@ -253,7 +253,6 @@ public class UserController {
         return returnValue;
     }
 
-
     // http://localhost:8080/mobile-app-ws/users/password-reset-request
 
     @PostMapping(path = "/password-reset-request",

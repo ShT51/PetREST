@@ -4,6 +4,7 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailServiceClientBuilder;
 import com.amazonaws.services.simpleemail.model.*;
+import com.udemy.app.ws.security.SecurityConstants;
 import com.udemy.app.ws.shared.dto.UserDto;
 import org.springframework.stereotype.Service;
 
@@ -11,17 +12,16 @@ import org.springframework.stereotype.Service;
 public class AmazonSES {
 
     // Emails will be send from this address
-    final String FROM = "email@email.com";
+    static String FROM;
 
     final String SUBJECT = "One last step to complete your registration with PetREST ";
-
     final String PASSWORD_RESET_SUBJECT = "Password reset request";
 
     // Text body in HTML format
     final String HTMLBODY = "<h1>Please verify your email address</h1>"
             + "<p>Thank you for registering with our mobile app. To complete registration process and be able to log in,"
             + " click on the following link: "
-            + "<a href='http://localhost:8080/verification-service/email-verification.html?token=$tokenValue'>"
+            + "<a href='$origin/verification-service/email-verification.html?token=$tokenValue'>"
             + "Final step to complete your registration" + "</a><br/><br/>"
             + "Thank you! And we are waiting for you inside!";
 
@@ -29,7 +29,7 @@ public class AmazonSES {
     final String TEXTBODY = "Please verify your email address. "
             + "Thank you for registering with our mobile app. To complete registration process and be able to log in,"
             + " open then the following URL in your browser window: "
-            + " http://localhost:8080/verification-service/email-verification.html?token=$tokenValue"
+            + " $origin/verification-service/email-verification.html?token=$tokenValue"
             + " Thank you! And we are waiting for you inside!";
 
 
@@ -37,7 +37,7 @@ public class AmazonSES {
             + "<p>Hi, $firstName!</p> "
             + "<p>Someone has requested to reset your password with our project. If it were not you, please ignore it."
             + " otherwise please click on the link below to set a new password: "
-            + "<a href='http://localhost:8080/verification-service/password-reset.html?token=$tokenValue'>"
+            + "<a href='$origin/verification-service/password-reset.html?token=$tokenValue'>"
             + " Click this link to Reset Password"
             + "</a><br/><br/>"
             + "Thank you!";
@@ -47,7 +47,7 @@ public class AmazonSES {
             + "Hi, $firstName! "
             + "Someone has requested to reset your password with our project. If it were not you, please ignore it."
             + " otherwise please open the link below in your browser window to set a new password:"
-            + " http://localhost:8080/verification-service/password-reset.html?token=$tokenValue"
+            + " $origin/verification-service/password-reset.html?token=$tokenValue"
             + " Thank you!";
 
 
@@ -59,10 +59,14 @@ public class AmazonSES {
 
         AmazonSimpleEmailService client =
                 AmazonSimpleEmailServiceClientBuilder.standard()
-                    .withRegion(Regions.US_EAST_1).build();
+                        .withRegion(Regions.US_EAST_1).build();
 
-        String htmlBodyWithToken = HTMLBODY.replace("$tokenValue", userDto.getEmailVerificationToken());
-        String textBodyWithToken = TEXTBODY.replace("$tokenValue", userDto.getEmailVerificationToken());
+        String htmlBodyWithToken = HTMLBODY
+                .replace("$tokenValue", userDto.getEmailVerificationToken())
+                .replace("$origin", SecurityConstants.getOrigin());
+        String textBodyWithToken = TEXTBODY
+                .replace("$tokenValue", userDto.getEmailVerificationToken())
+                .replace("$origin", SecurityConstants.getOrigin());
 
         SendEmailRequest request = new SendEmailRequest()
                 .withDestination(new Destination().withToAddresses(userDto.getEmail()))
@@ -70,7 +74,7 @@ public class AmazonSES {
                         .withBody(new Body().withHtml(new Content().withCharset("UTF-8").withData(htmlBodyWithToken))
                                 .withText(new Content().withCharset("UTF-8").withData(textBodyWithToken)))
                         .withSubject(new Content().withCharset("UTF-8").withData(SUBJECT)))
-                .withSource(FROM);
+                .withSource(SecurityConstants.getEmail());
 
         client.sendEmail(request);
 
@@ -89,12 +93,15 @@ public class AmazonSES {
                 AmazonSimpleEmailServiceClientBuilder.standard()
                         .withRegion(Regions.US_EAST_1).build();
 
-        String htmlBodyWithToken = PASSWORD_RESET_HTMLBODY.replace("$tokenValue", token);
-        htmlBodyWithToken = htmlBodyWithToken.replace("$firstName", firstName);
+        String htmlBodyWithToken = PASSWORD_RESET_HTMLBODY
+                .replace("$tokenValue", token)
+                .replace("$firstName", firstName)
+                .replace("$origin", SecurityConstants.getOrigin());
 
-        String textBodyWithToken = PASSWORD_RESET_TEXTBODY.replace("$tokenValue", token);
-        textBodyWithToken = textBodyWithToken.replace("$firstName", firstName);
-
+        String textBodyWithToken = PASSWORD_RESET_TEXTBODY
+                .replace("$tokenValue", token)
+                .replace("$firstName", firstName)
+                .replace("$origin", SecurityConstants.getOrigin());
 
         SendEmailRequest request = new SendEmailRequest()
                 .withDestination(
@@ -107,7 +114,7 @@ public class AmazonSES {
                                         .withCharset("UTF-8").withData(textBodyWithToken)))
                         .withSubject(new Content()
                                 .withCharset("UTF-8").withData(PASSWORD_RESET_SUBJECT)))
-                .withSource(FROM);
+                .withSource(SecurityConstants.getEmail());
 
         SendEmailResult result = client.sendEmail(request);
         if (result != null && (result.getMessageId() != null && !result.getMessageId().isEmpty())) {

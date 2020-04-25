@@ -13,4 +13,12 @@ public class AppProperties {
     public String getTokenSecret() {
         return env.getProperty("tokenSecret");
     }
+
+    public String getEmail() {
+        return env.getProperty("security.constants.email");
+    }
+
+    public String getOrigin() {
+        return env.getProperty("security.constants.origin");
+    }
 }

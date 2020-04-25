@@ -16,10 +16,20 @@ public class SecurityConstants {
     public static final String PASSWORD_RESET_URL = "/users/password-reset";
     public static final String H2_CONSOLE = "/h2-console/**";
 
-    // return the token secret key from the property file
+    private static AppProperties loadAppProperties() {
+        return SpringApplicationContext.getBean("appProperties", AppProperties.class);
+    }
+
     public static String getTokenSecret() {
-        AppProperties appProperties = SpringApplicationContext.getBean("appProperties", AppProperties.class);
-        return appProperties.getTokenSecret();
+        return loadAppProperties().getTokenSecret();
+    }
+
+    public static String getEmail() {
+        return loadAppProperties().getEmail();
+    }
+
+    public static String getOrigin() {
+        return loadAppProperties().getOrigin();
     }
 
 }
