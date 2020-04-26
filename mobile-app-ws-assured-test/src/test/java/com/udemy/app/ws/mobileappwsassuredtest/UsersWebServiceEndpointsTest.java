@@ -28,6 +28,7 @@ public class UsersWebServiceEndpointsTest {
         RestAssured.port = 8080;
     }
 
+    // run this test first!
     @Test
     @Disabled
     void createUser() {
@@ -35,12 +36,13 @@ public class UsersWebServiceEndpointsTest {
     }
 
     // authorization status should to be set to TRUE (1)
+    // UPDATE Users SET Email_verification_status = 'true'
     @Test
     @Order(1)
     void testUserLogin() {
         Map<String, String> loginDetails = new HashMap<>();
-        loginDetails.put("email", EMAIL_ADDRESS);
-        loginDetails.put("password", "1234");
+        loginDetails.put("email", TestHelper.USER_EMAIL);
+        loginDetails.put("password", TestHelper.RAW_PASSWORD);
 
         Response response = given()
                 .contentType(JSON)

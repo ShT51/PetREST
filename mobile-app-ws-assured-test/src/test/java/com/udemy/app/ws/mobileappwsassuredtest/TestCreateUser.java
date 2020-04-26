@@ -5,17 +5,20 @@ import io.restassured.response.Response;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static io.restassured.RestAssured.given;
-import static io.restassured.RestAssured.useRelaxedHTTPSValidation;
 import static org.junit.jupiter.api.Assertions.*;
 
+@SpringBootTest
 public class TestCreateUser {
 
     private final String CONTEXT_PATH = "/mobile-app-ws";
@@ -28,32 +31,15 @@ public class TestCreateUser {
 
     @Test
     void testCreateUser() {
-
-        List<Map<String, Object>> userAddresses = new ArrayList<>();
-
-        Map<String, Object> shippingAddress = new HashMap<>();
-        shippingAddress.put("city", "Springwood");
-        shippingAddress.put("country", "USA");
-        shippingAddress.put("streetName", "Elm Street");
-        shippingAddress.put("postalCode", "666");
-        shippingAddress.put("type", "shipping");
-
-        Map<String, Object> billingAddress = new HashMap<>();
-        billingAddress.put("city", "Springwood");
-        billingAddress.put("country", "USA");
-        billingAddress.put("streetName", "Elm Street");
-        billingAddress.put("postalCode", "666");
-        billingAddress.put("type", "billing");
-
-        userAddresses.add(shippingAddress);
-        userAddresses.add(billingAddress);
+        List<Map<String, Object>> userAddresses = TestHelper.getUserAddresses();
 
         Map<String, Object> userDetails = new HashMap<>();
-        userDetails.put("firstName", "Freddy");
-        userDetails.put("lastName", "Krueger");
-        userDetails.put("email", "night@mare.com");
-        userDetails.put("password", "1234");
+        userDetails.put("firstName", TestHelper.FIRST_NAME);
+        userDetails.put("lastName", TestHelper.LAST_NAME);
+        userDetails.put("email", TestHelper.USER_EMAIL);
+        userDetails.put("password", TestHelper.RAW_PASSWORD);
         userDetails.put("addresses", userAddresses);
+
 
         Response response = given()
                 .contentType("application/json")
