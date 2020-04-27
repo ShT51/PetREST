@@ -32,10 +32,9 @@ This end-points are available only to User with ROLE_ADMIN
 See the examples of request in requestEx.txt file
 
 List TODO:
-- add more Unit tests
 - add new endpoints
-- remove some hardcoded lines to propertie file
-- add to public repo Rest Assured service
++ remove some hardcoded lines to propertie file
++ add to public repo Rest Assured service
 - update view layer
 - deploy my RESTful WebService on Amazon EC2 Server
 - update requestEx.txt file
