@@ -33,8 +33,6 @@ See the examples of request in requestEx.txt file
 
 List TODO:
 - add new endpoints
-+ remove some hardcoded lines to propertie file
-+ add to public repo Rest Assured service
 - update view layer
 - deploy my RESTful WebService on Amazon EC2 Server
 - update requestEx.txt file
